@@ -3,8 +3,6 @@ package com.example.app.controller;
 import com.example.app.bean.Application;
 import com.example.app.service.ApplicationService;
 import com.example.app.utils.PageUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +14,6 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationService applicationService;
-
 
     @RequestMapping("/findAllApplication/{pageNum}/{pageSize}")
     public PageUtil findAllApplication(@PathVariable int pageNum, @PathVariable int pageSize){
@@ -46,6 +43,11 @@ public class ApplicationController {
     @RequestMapping(value = "/findByUserId",method = RequestMethod.GET)
     public List<Application> findByUserId(@RequestParam(value = "userId")String userId){
         return applicationService.findByUserId(userId);
+    }
+
+    @RequestMapping(value = "/findByMeetingId",method = RequestMethod.GET)
+    public List<Application> findByMeetingId(@RequestParam(value = "meetingId")String meetingId){
+        return applicationService.findByMeetingId(meetingId);
     }
 
     @RequestMapping(value = "/deleteApplication",method = RequestMethod.GET)

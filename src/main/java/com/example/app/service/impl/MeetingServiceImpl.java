@@ -3,6 +3,7 @@ package com.example.app.service.impl;
 import com.example.app.bean.Meeting;
 import com.example.app.dao.MeetingRepository;
 import com.example.app.service.MeetingService;
+import com.example.app.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,21 @@ public class MeetingServiceImpl implements MeetingService {
     public List<Meeting> findAll() {
         List<Meeting> res = meetingRepository.findAll();
         return res;
+    }
+
+    @Override
+    public PageUtil getAllMeetingByPageUtil(int pageNum, int pageSize) {
+        PageUtil pageUtil = new PageUtil();
+
+        int totalNumber = meetingRepository.findAll().size();
+
+        pageUtil.setPageSize(pageSize);
+        pageUtil.setTotalElements(totalNumber);
+        pageUtil.setNumber(pageNum);
+        List<Meeting> list = meetingRepository.findMeeting((pageNum-1)*pageSize,pageSize);
+        pageUtil.setContent(list);
+
+        return pageUtil;
     }
 
     @Override

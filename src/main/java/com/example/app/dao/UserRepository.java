@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     List<User> findAll();
 
+    @Query(nativeQuery = true,value = "select * from user u order by u.id ASC limit ?1,?2")
+    public List<User> findUser(int pageNum, int pageSize);
+
     List<User> findByUserName(String name);
 
     User findByUserPhone(String userPhone);

@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.bean.User;
+import com.example.app.utils.PageUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -10,6 +11,8 @@ import java.util.List;
 public interface UserService {
 
     List<User> findAll();
+
+    PageUtil getAllUserByPageUtil(int pageNum, int pageSize);
 
     String save(User user);
 

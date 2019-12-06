@@ -3,6 +3,7 @@ package com.example.app.controller;
 import com.example.app.service.MeetingService;
 import com.example.app.bean.Meeting;
 
+import com.example.app.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,9 @@ public class MeetingController {
     @Autowired
     private MeetingService meetingService;
 
-    @RequestMapping("/findAllMeeting")
-    public List<Meeting> findAllMeeting(){
-        return meetingService.findAll();
+    @RequestMapping("/findAllMeeting/{pageNum}/{pageSize}")
+    public PageUtil findAllMeeting(@PathVariable int pageNum, @PathVariable int pageSize){
+        return meetingService.getAllMeetingByPageUtil(pageNum,pageSize);
     }
 
     @RequestMapping(value = "/save",method = RequestMethod.POST)

@@ -2,6 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.bean.User;
 import com.example.app.service.UserService;
+import com.example.app.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/findAllUser")
-    public List<User> findAllUser(){
-        return userService.findAll();
+    @RequestMapping("/findAllUser/{pageNum}/{pageSize}")
+    public PageUtil findAllUser(@PathVariable int pageNum, @PathVariable int pageSize){
+        return userService.getAllUserByPageUtil(pageNum,pageSize);
     }
 
     @RequestMapping(value = "/save",method = RequestMethod.POST)

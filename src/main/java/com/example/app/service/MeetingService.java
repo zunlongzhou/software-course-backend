@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.bean.Meeting;
+import com.example.app.utils.PageUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 public interface MeetingService {
 
     List<Meeting> findAll();
+
+    PageUtil getAllMeetingByPageUtil(int pageNum, int pageSize);
 
     String save(Meeting meeting);
 

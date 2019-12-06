@@ -5,9 +5,6 @@ import com.example.app.bean.Application;
 import com.example.app.dao.ApplicationRepository;
 import com.example.app.service.ApplicationService;
 import com.example.app.utils.PageUtil;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

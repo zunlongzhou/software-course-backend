@@ -3,6 +3,7 @@ package com.example.app.service.impl;
 import com.example.app.bean.User;
 import com.example.app.dao.UserRepository;
 import com.example.app.service.UserService;
+import com.example.app.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public PageUtil getAllUserByPageUtil(int pageNum, int pageSize) {
+        PageUtil pageUtil = new PageUtil();
+
+        int totalNumber = userRepository.findAll().size();
+
+        pageUtil.setPageSize(pageSize);
+        pageUtil.setTotalElements(totalNumber);
+        pageUtil.setNumber(pageNum);
+        List<User> list = userRepository.findUser((pageNum-1)*pageSize,pageSize);
+        pageUtil.setContent(list);
+
+        return pageUtil;
+    }
+
+    @Override
     public String save(User user) {
          if (user == null || user.getUserName().equals("nonExistent") ){
              return "save failed";
@@ -39,7 +55,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByUserName(String name) {
-        return userRepository.findByUserName(name);
+        List<User> m = userRepository.findByUserName(name);
+        if (m.size() == 0){
+            m.add(nonExistent);
+        }
+        return m;
     }
 
     @Override

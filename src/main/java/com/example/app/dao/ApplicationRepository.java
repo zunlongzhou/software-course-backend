@@ -2,8 +2,6 @@ package com.example.app.dao;
 
 
 import com.example.app.bean.Application;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,9 +14,6 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application,Integer> {
-
-    @Select("select * from application  ")
-    List<Application> findAll();
 
     @Query(nativeQuery = true,value = "select * from application a order by a.application_date ASC limit ?1,?2")
     public List<Application> findApplication(int pageNum, int pageSize);

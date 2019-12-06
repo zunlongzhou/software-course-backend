@@ -2,9 +2,6 @@ package com.example.app.service;
 
 import com.example.app.bean.Application;
 import com.example.app.utils.PageUtil;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
-
 import java.util.List;
 
 public interface ApplicationService {
