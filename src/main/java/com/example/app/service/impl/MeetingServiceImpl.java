@@ -73,12 +73,18 @@ public class MeetingServiceImpl implements MeetingService {
 
 
     @Override
-    public List<Meeting> findByMeetingPlace(String place) {
-        List<Meeting> m = meetingRepository.findByMeetingPlace(place);
-        if (m.size() == 0){
-            m.add(nonExistent);
-        }
-        return m;
+    public PageUtil findMeetingByMeetingPlace(String place,int pageNum, int pageSize) {
+        PageUtil pageUtil = new PageUtil();
+
+        int totalNumber = meetingRepository.findByMeetingPlace(place).size();
+
+        pageUtil.setPageSize(pageSize);
+        pageUtil.setTotalElements(totalNumber);
+        pageUtil.setNumber(pageNum);
+        List<Meeting> list = meetingRepository.findMeetingByMeetingPlace(place,(pageNum-1)*pageSize,pageSize);
+        pageUtil.setContent(list);
+
+        return pageUtil;
     }
 
 

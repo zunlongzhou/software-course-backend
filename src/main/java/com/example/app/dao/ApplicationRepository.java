@@ -16,7 +16,13 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<Application,Integer> {
 
     @Query(nativeQuery = true,value = "select * from application a order by a.application_date ASC limit ?1,?2")
-    public List<Application> findApplication(int pageNum, int pageSize);
+    List<Application> findApplication(int pageNum, int pageSize);
+
+    @Query(nativeQuery = true,value = "select * from application a where a.user_id = ?1 order by a.application_date ASC limit ?2,?3")
+    List<Application> findApplicationByUserId(String userId,int pageNum, int pageSize);
+
+    @Query(nativeQuery = true,value = "select * from application a where a.meeting_id = ?1 order by a.application_date ASC limit ?2,?3")
+    List<Application> findApplicationByMeetingId(String meetingId,int pageNum, int pageSize);
 
 //    Page<Application> findAllByApplicationDate(Integer id, Pageable pageable);
 

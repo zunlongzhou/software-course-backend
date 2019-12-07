@@ -44,9 +44,9 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = "/findByMeetingPlace",method = RequestMethod.GET)
-    public List<Meeting> findByMeetingPlace(@RequestParam(value = "meetingPlace") String meetingPlace){
-        return meetingService.findByMeetingPlace(meetingPlace);
+    @RequestMapping(value = "/findMeetingByMeetingPlace/{pageNum}/{pageSize}",method = RequestMethod.GET)
+    public PageUtil findMeetingByMeetingPlace(@RequestParam(value = "meetingPlace") String meetingPlace,@PathVariable int pageNum, @PathVariable int pageSize){
+        return meetingService.findMeetingByMeetingPlace(meetingPlace,pageNum,pageSize);
     }
 
 

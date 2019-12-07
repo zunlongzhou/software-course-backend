@@ -68,21 +68,33 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> findByUserId(String userId) {
-        List<Application> a =  applicationRepository.findByUserId(userId);
-        if (a.size()==0){
-            a.add(nonExistent);
-        }
-        return a;
+    public PageUtil findApplicationByUserId(String userId,int pageNum, int pageSize) {
+        PageUtil pageUtil = new PageUtil();
+
+        int totalNumber = applicationRepository.findByUserId(userId).size();
+
+        pageUtil.setPageSize(pageSize);
+        pageUtil.setTotalElements(totalNumber);
+        pageUtil.setNumber(pageNum);
+        List<Application> list = applicationRepository.findApplicationByUserId(userId,(pageNum-1)*pageSize,pageSize);
+        pageUtil.setContent(list);
+
+        return pageUtil;
     }
 
     @Override
-    public List<Application> findByMeetingId(String meetingId) {
-        List<Application> a =  applicationRepository.findByMeetingIdId(meetingId);
-        if (a.size()==0){
-            a.add(nonExistent);
-        }
-        return a;
+    public PageUtil findApplicationByMeetingId(String meetingId,int pageNum, int pageSize) {
+        PageUtil pageUtil = new PageUtil();
+
+        int totalNumber = applicationRepository.findByMeetingIdId(meetingId).size();
+
+        pageUtil.setPageSize(pageSize);
+        pageUtil.setTotalElements(totalNumber);
+        pageUtil.setNumber(pageNum);
+        List<Application> list = applicationRepository.findApplicationByMeetingId(meetingId,(pageNum-1)*pageSize,pageSize);
+        pageUtil.setContent(list);
+
+        return pageUtil;
     }
 
     @Override

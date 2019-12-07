@@ -73,7 +73,7 @@ public class UserController {
 
     @RequestMapping(value = "/updateUserDeadLine",method = RequestMethod.GET)
     public String updateUserDeadline(@RequestParam(value = "deadline") Date deadline,@RequestParam(value = "userInfo") String userInfo){
-        return userService.updateUserDeadline(deadline,userInfo);
+        return userService.updateUserDeadLine(deadline,userInfo);
     }
 
     @RequestMapping(value = "/updateUserPassword",method = RequestMethod.POST)

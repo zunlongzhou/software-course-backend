@@ -40,14 +40,14 @@ public class ApplicationController {
         return applicationService.findByUserIdAndMeetingId(userId,meetingId);
     }
 
-    @RequestMapping(value = "/findByUserId",method = RequestMethod.GET)
-    public List<Application> findByUserId(@RequestParam(value = "userId")String userId){
-        return applicationService.findByUserId(userId);
+    @RequestMapping(value = "/findApplicationByUserId/{pageNum}/{pageSize}",method = RequestMethod.GET)
+    public PageUtil findApplicationByUserId(@RequestParam(value = "userId")String userId,@PathVariable int pageNum, @PathVariable int pageSize){
+        return applicationService.findApplicationByUserId(userId, pageNum, pageSize);
     }
 
-    @RequestMapping(value = "/findByMeetingId",method = RequestMethod.GET)
-    public List<Application> findByMeetingId(@RequestParam(value = "meetingId")String meetingId){
-        return applicationService.findByMeetingId(meetingId);
+    @RequestMapping(value = "/findApplicationByMeetingId/{pageNum}/{pageSize}",method = RequestMethod.GET)
+    public PageUtil findApplicationByMeetingId(@RequestParam(value = "meetingId")String meetingId,@PathVariable int pageNum, @PathVariable int pageSize){
+        return applicationService.findApplicationByMeetingId(meetingId, pageNum, pageSize);
     }
 
     @RequestMapping(value = "/deleteApplication",method = RequestMethod.GET)

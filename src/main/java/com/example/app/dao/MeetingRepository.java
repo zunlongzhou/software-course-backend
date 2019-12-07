@@ -21,6 +21,9 @@ public interface MeetingRepository extends JpaRepository<Meeting,Integer> {
     @Query("select m from Meeting m where m.meetingPlace = ?1")
     List<Meeting> findByMeetingPlace(String meetingPlace);
 
+    @Query(nativeQuery = true,value = "select * from meeting m where m.meeting_place = ?1 order by m.id ASC limit ?2,?3")
+    List<Meeting> findMeetingByMeetingPlace(String meetingPlcae,int pageNum, int pageSize);
+
     Meeting findByMeetingName(String meetingName);
 
     Meeting findByMeetingId(String meetingId);

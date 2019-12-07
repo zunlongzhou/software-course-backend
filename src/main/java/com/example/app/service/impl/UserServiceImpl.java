@@ -23,12 +23,6 @@ public class UserServiceImpl implements UserService {
     User nonExistent = null;
 
     @Override
-    public List<User> findAll() {
-        List<User> res = userRepository.findAll();
-        return res;
-    }
-
-    @Override
     public PageUtil getAllUserByPageUtil(int pageNum, int pageSize) {
         PageUtil pageUtil = new PageUtil();
 
@@ -163,7 +157,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUserDeadline(Date deadline, String userInfo) {
+    public String updateUserDeadLine(Date deadline, String userInfo) {
         if(!getUserIdByVipId(userInfo).equals("nonExistent")){
             String userId=getUserIdByVipId(userInfo);
             userRepository.updateUserDeadLine(deadline,userId);

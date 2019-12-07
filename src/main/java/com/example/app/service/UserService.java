@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
-
     PageUtil getAllUserByPageUtil(int pageNum, int pageSize);
 
     String save(User user);
@@ -32,7 +30,7 @@ public interface UserService {
 
     String deleteByMail(String mail);
 
-    String updateUserDeadline(Date deadline, String userId);
+    String updateUserDeadLine(Date deadline, String userId);
 
     String updateUserMail(String mail,String userId);
 

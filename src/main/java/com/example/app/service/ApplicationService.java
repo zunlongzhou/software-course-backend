@@ -17,9 +17,9 @@ public interface ApplicationService {
 
     Application findByUserIdAndMeetingId(String userId,String meetingId);
 
-    List<Application> findByUserId(String userId);
+    PageUtil findApplicationByUserId(String userId,int pageNum, int pageSize);
 
-    List<Application> findByMeetingId(String meetingId);
+    PageUtil findApplicationByMeetingId(String meetingId,int pageNum, int pageSize);
 
     String getApplicationId(Application application);
 

@@ -16,7 +16,7 @@ public interface MeetingService {
 
     Meeting findByMeetingName(String name);
 
-    List<Meeting> findByMeetingPlace(String place);
+    PageUtil findMeetingByMeetingPlace(String place,int pageNum, int pageSize);
 
     Meeting findByMeetingId(String meetingId);
 
