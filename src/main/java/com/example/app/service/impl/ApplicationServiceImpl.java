@@ -24,7 +24,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     Application nonExistent;
     {
         try {
-            nonExistent = new Application("0","0","0",sdf.parse("0000-01-01 00:00:00"));
+            nonExistent = new Application("0","0","0",sdf.parse("0000-01-01 00:00:00"),"0","0","0","0");
         } catch (ParseException e) {
             e.printStackTrace();
         }

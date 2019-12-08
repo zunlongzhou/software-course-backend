@@ -29,6 +29,4 @@ public interface ApplicationService {
 
     String updateApplicationMeetingId(String userId,String applicationId);
 
-
-
 }
