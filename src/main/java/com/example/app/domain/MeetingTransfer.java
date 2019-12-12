@@ -1,47 +1,27 @@
-package com.example.app.bean;
+package com.example.app.domain;
 
-import javax.persistence.*;
-import java.util.Date;
 
-@Entity
-@Table(name = "meeting")
-public class Meeting {
+public class MeetingTransfer {
 
-    @Id
-    @GeneratedValue
-    private  Integer Id;
-
-    @Column
-    private String meetingId;
-
-    @Column
     private String meetingName;
 
-    @Column
     private String meetingPlace;
 
-    @Column
-    private Date meetingStartDate;
+    private String meetingStartDate;
 
-    @Column
-    private Date meetingEndDate;
+    private String meetingEndDate;
 
-    @Column
     private String meetingPhone;
 
-    @Column
     private String meetingIntroduction;
 
-    @Column
     private String meetingTitle;
 
-    @Column
     private String meetingPicture;
 
-    public Meeting(){}
+    public  MeetingTransfer(){}
 
-    public Meeting(String meetingId, String meetingName, String meetingPlace, Date meetingStartDate, Date meetingEndDate, String meetingPhone, String meetingIntroduction, String meetingTitle, String meetingPicture) {
-        this.meetingId = meetingId;
+    public MeetingTransfer(String meetingName, String meetingPlace, String meetingStartDate, String meetingEndDate, String meetingPhone, String meetingIntroduction, String meetingTitle, String meetingPicture) {
         this.meetingName = meetingName;
         this.meetingPlace = meetingPlace;
         this.meetingStartDate = meetingStartDate;
@@ -54,34 +34,16 @@ public class Meeting {
 
     @Override
     public String toString() {
-        return "Meeting{" +
-                "Id=" + Id +
-                ", meetingId='" + meetingId + '\'' +
-                ", meetingName='" + meetingName + '\'' +
+        return "MeetingTransfer{" +
+                "meetingName='" + meetingName + '\'' +
                 ", meetingPlace='" + meetingPlace + '\'' +
-                ", meetingStartDate=" + meetingStartDate +
-                ", meetingEndDate=" + meetingEndDate +
+                ", meetingStartDate='" + meetingStartDate + '\'' +
+                ", meetingEndDate='" + meetingEndDate + '\'' +
                 ", meetingPhone='" + meetingPhone + '\'' +
                 ", meetingIntroduction='" + meetingIntroduction + '\'' +
                 ", meetingTitle='" + meetingTitle + '\'' +
                 ", meetingPicture='" + meetingPicture + '\'' +
                 '}';
-    }
-
-    public Integer getId() {
-        return Id;
-    }
-
-    public void setId(Integer id) {
-        Id = id;
-    }
-
-    public String getMeetingId() {
-        return meetingId;
-    }
-
-    public void setMeetingId(String meetingId) {
-        this.meetingId = meetingId;
     }
 
     public String getMeetingName() {
@@ -100,19 +62,19 @@ public class Meeting {
         this.meetingPlace = meetingPlace;
     }
 
-    public Date getMeetingStartDate() {
+    public String getMeetingStartDate() {
         return meetingStartDate;
     }
 
-    public void setMeetingStartDate(Date meetingStartDate) {
+    public void setMeetingStartDate(String meetingStartDate) {
         this.meetingStartDate = meetingStartDate;
     }
 
-    public Date getMeetingEndDate() {
+    public String getMeetingEndDate() {
         return meetingEndDate;
     }
 
-    public void setMeetingEndDate(Date meetingEndDate) {
+    public void setMeetingEndDate(String meetingEndDate) {
         this.meetingEndDate = meetingEndDate;
     }
 
@@ -147,5 +109,4 @@ public class Meeting {
     public void setMeetingPicture(String meetingPicture) {
         this.meetingPicture = meetingPicture;
     }
-
 }

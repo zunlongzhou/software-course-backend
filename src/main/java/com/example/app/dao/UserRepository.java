@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     List<User> findByUserName(String name);
 
+    User findByUserId(String userId);
+
     User findByUserPhone(String userPhone);
 
     User findByVipId(String vipId);
@@ -41,34 +43,34 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Transactional
     void deleteByMail(String mail);
 
-    @Transactional
-    @Modifying
-    @Query("update User u set u.deadline=?1 where u.userId=?2")
-    void updateUserDeadLine(Date deadline,String userId);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.mail=?1 where u.userId=?2")
-    void updateUserMail(String mail,String userId);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.password=?1 where u.userId=?2")
-    void updateUserPassword(String password,String userId);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.userName=?1 where u.userId=?2")
-    void updateUserName(String userName,String userId);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.userPhone=?1 where u.userId=?2")
-    void updateUserPhone(String userPhone,String userId);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.vipId=?1 where u.userId=?2")
-    void updateUserVipId(String vipId,String userId);
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.deadline=?1 where u.userId=?2")
+//    void updateUserDeadLine(Date deadline,String userId);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.mail=?1 where u.userId=?2")
+//    void updateUserMail(String mail,String userId);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.password=?1 where u.userId=?2")
+//    void updateUserPassword(String password,String userId);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.userName=?1 where u.userId=?2")
+//    void updateUserName(String userName,String userId);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.userPhone=?1 where u.userId=?2")
+//    void updateUserPhone(String userPhone,String userId);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("update User u set u.vipId=?1 where u.userId=?2")
+//    void updateUserVipId(String vipId,String userId);
 
 }

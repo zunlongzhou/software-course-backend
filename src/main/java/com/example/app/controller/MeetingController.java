@@ -1,5 +1,6 @@
 package com.example.app.controller;
 
+import com.example.app.domain.MeetingTransfer;
 import com.example.app.service.MeetingService;
 import com.example.app.bean.Meeting;
 
@@ -23,14 +24,13 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public String save(@RequestBody Meeting meeting){
-        if (meeting ==null){
+    public String save(@RequestBody MeetingTransfer meetingTransfer){
+        if (meetingTransfer ==null){
             return "save failed";
         }else {
-            return meetingService.save(meeting);
+            return meetingService.save(meetingTransfer);
         }
     }
-
 
     @RequestMapping(value = "/findByMeetingName",method = RequestMethod.GET)
     public Meeting findByMeetingName(@RequestParam(value = "meetingName") String meetingName){
@@ -60,39 +60,44 @@ public class MeetingController {
         return meetingService.deleteByMeetingName(meetingName);
     }
 
-    @RequestMapping(value = "/updateMeetingDate",method = RequestMethod.GET)
-    public String updateMeetingDate(@RequestParam(value = "meetingDate") Date meetingDate,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingDate(meetingDate,meetingInfo);
+    @RequestMapping(value = "/updateMeeting",method = RequestMethod.POST)
+    public String updateMeeting(@RequestBody Meeting meeting){
+        return meetingService.updateMeeting(meeting);
     }
 
-    @RequestMapping(value = "/updateMeetingIntroduction",method = RequestMethod.GET)
-    public String updateMeetingIntroduction(@RequestParam(value = "meetingIntroduction") String meetingIntroduction,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingIntroduction(meetingIntroduction,meetingInfo);
-    }
-
-    @RequestMapping(value = "/updateMeetingName",method = RequestMethod.GET)
-    public String updateMeetingName(@RequestParam(value = "meetingName") String meetingName,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingName(meetingName,meetingInfo);
-    }
-
-    @RequestMapping(value = "/updateMeetingPhone",method = RequestMethod.GET)
-    public String updateMeetingPhone(@RequestParam(value = "meetingPhone") String meetingPhone,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingPhone(meetingPhone,meetingInfo);
-    }
-
-    @RequestMapping(value = "/updateMeetingPicture",method = RequestMethod.GET)
-    public String updateMeetingPicture(@RequestParam(value = "meetingPicture") String meetingPicture,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingPicture(meetingPicture,meetingInfo);
-    }
-
-    @RequestMapping(value = "/updateMeetingPlace",method = RequestMethod.GET)
-    public String updateMeetingPlace(@RequestParam(value = "meetingPlace") String meetingPlace,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingPlace(meetingPlace,meetingInfo);
-    }
-
-    @RequestMapping(value = "/updateMeetingTitle",method = RequestMethod.GET)
-    public String updateMeetingTitle(@RequestParam(value = "meetingTitle") String meetingTitle,@RequestParam(value = "meetingInfo") String meetingInfo){
-        return meetingService.updateMeetingTitle(meetingTitle,meetingInfo);
-    }
+//    @RequestMapping(value = "/updateMeetingDate",method = RequestMethod.GET)
+//    public String updateMeetingDate(@RequestParam(value = "meetingDate") Date meetingDate,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingDate(meetingDate,meetingInfo);
+//    }
+//
+//    @RequestMapping(value = "/updateMeetingIntroduction",method = RequestMethod.GET)
+//    public String updateMeetingIntroduction(@RequestParam(value = "meetingIntroduction") String meetingIntroduction,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingIntroduction(meetingIntroduction,meetingInfo);
+//    }
+//
+//    @RequestMapping(value = "/updateMeetingName",method = RequestMethod.GET)
+//    public String updateMeetingName(@RequestParam(value = "meetingName") String meetingName,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingName(meetingName,meetingInfo);
+//    }
+//
+//    @RequestMapping(value = "/updateMeetingPhone",method = RequestMethod.GET)
+//    public String updateMeetingPhone(@RequestParam(value = "meetingPhone") String meetingPhone,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingPhone(meetingPhone,meetingInfo);
+//    }
+//
+//    @RequestMapping(value = "/updateMeetingPicture",method = RequestMethod.GET)
+//    public String updateMeetingPicture(@RequestParam(value = "meetingPicture") String meetingPicture,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingPicture(meetingPicture,meetingInfo);
+//    }
+//
+//    @RequestMapping(value = "/updateMeetingPlace",method = RequestMethod.GET)
+//    public String updateMeetingPlace(@RequestParam(value = "meetingPlace") String meetingPlace,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingPlace(meetingPlace,meetingInfo);
+//    }
+//
+//    @RequestMapping(value = "/updateMeetingTitle",method = RequestMethod.GET)
+//    public String updateMeetingTitle(@RequestParam(value = "meetingTitle") String meetingTitle,@RequestParam(value = "meetingInfo") String meetingInfo){
+//        return meetingService.updateMeetingTitle(meetingTitle,meetingInfo);
+//    }
 
 }

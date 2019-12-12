@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.bean.User;
+import com.example.app.domain.UserTransfer;
 import com.example.app.utils.PageUtil;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public interface UserService {
 
     PageUtil getAllUserByPageUtil(int pageNum, int pageSize);
 
-    String save(User user);
+    String save(UserTransfer userTransfer);
 
     List<User> findByUserName(String name);
 
@@ -30,22 +31,24 @@ public interface UserService {
 
     String deleteByMail(String mail);
 
-    String updateUserDeadLine(Date deadline, String userId);
+    String updateUser(User user);
 
-    String updateUserMail(String mail,String userId);
-
-    String updateUserPassword(String password,String userId);
-
-    String updateUserName(String userName,String userId);
-
-    String updateUserPhone(String userPhone,String userId);
-
-    String updateUserVipId(String vipId,String userId);
-
-    String getUserIdByUserPhone(String userPhone);
-
-    String getUserIdByVipId(String vipId);
-
-    String getUserIdByMail(String mail);
+//    String updateUserDeadLine(Date deadline, String userId);
+//
+//    String updateUserMail(String mail,String userId);
+//
+//    String updateUserPassword(String password,String userId);
+//
+//    String updateUserName(String userName,String userId);
+//
+//    String updateUserPhone(String userPhone,String userId);
+//
+//    String updateUserVipId(String vipId,String userId);
+//
+//    String getUserIdByUserPhone(String userPhone);
+//
+//    String getUserIdByVipId(String vipId);
+//
+//    String getUserIdByMail(String mail);
 
 }

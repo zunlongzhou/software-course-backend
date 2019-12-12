@@ -1,69 +1,78 @@
-package com.example.app.bean;
+package com.example.app.domain;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "user")
-public class User {
+public class RecordDisplay {
 
-    @Id
-    @GeneratedValue
-    private  Integer Id;
+    private String recordId;
 
-    @Column
+    private String meetingId;
+
+    private Date recordDate;
+
     private String userId;
 
-    @Column
     private String userName;
 
-    @Column
     private String userPhone;
 
-    @Column
     private String mail;
 
-    @Column
     private String vipId;
 
-    @Column
     private Date deadline;
 
-    @Column
-    private String password;
+    public RecordDisplay(){}
 
-    public User(){}
-
-    public User(String userId, String userName, String userPhone, String mail, String vipId, Date deadline, String password) {
+    public RecordDisplay(String recordId, String meetingId, Date recordDate, String userId, String userName, String userPhone, String mail, String vipId, Date deadline) {
+        this.recordId = recordId;
+        this.meetingId = meetingId;
+        this.recordDate = recordDate;
         this.userId = userId;
         this.userName = userName;
         this.userPhone = userPhone;
         this.mail = mail;
         this.vipId = vipId;
         this.deadline = deadline;
-        this.password = password;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "Id=" + Id +
+        return "RecordDisplay{" +
+                "recordId='" + recordId + '\'' +
+                ", meetingId='" + meetingId + '\'' +
+                ", recordDate=" + recordDate +
                 ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", userPhone='" + userPhone + '\'' +
                 ", mail='" + mail + '\'' +
                 ", vipId='" + vipId + '\'' +
                 ", deadline=" + deadline +
-                ", password='" + password + '\'' +
                 '}';
     }
 
-    public Integer getId() {
-        return Id;
+    public String getRecordId() {
+        return recordId;
     }
 
-    public void setId(Integer id) {
-        Id = id;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
+    }
+
+    public String getMeetingId() {
+        return meetingId;
+    }
+
+    public void setMeetingId(String meetingId) {
+        this.meetingId = meetingId;
+    }
+
+    public Date getRecordDate() {
+        return recordDate;
+    }
+
+    public void setRecordDate(Date recordDate) {
+        this.recordDate = recordDate;
     }
 
     public String getUserId() {
@@ -112,13 +121,5 @@ public class User {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

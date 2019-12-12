@@ -2,8 +2,10 @@ package com.example.app.service.impl;
 
 import com.example.app.bean.Meeting;
 import com.example.app.dao.MeetingRepository;
+import com.example.app.domain.MeetingTransfer;
 import com.example.app.service.MeetingService;
 import com.example.app.utils.PageUtil;
+import com.example.app.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +21,7 @@ public class MeetingServiceImpl implements MeetingService {
     private MeetingRepository meetingRepository;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Meeting nonExistent;
 
-    {
-        try {
-            nonExistent = new Meeting("0","0","0",sdf.parse("0000-01-01 00:00:00"),"0","0","0","0");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public List<Meeting> findAll() {
@@ -51,10 +45,38 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public String save(Meeting meeting) {
-        if (meeting == null || meeting.getMeetingName().equals("nonExistent") ){
+    public String save(MeetingTransfer meetingTransfer) {
+
+
+        if (isExistByMeetingName(meetingTransfer.getMeetingName())){
             return "save failed";
         }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date startDate = null;
+            try {
+                startDate = sdf.parse(meetingTransfer.getMeetingStartDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date endDate = null;
+            try {
+                endDate = sdf.parse(meetingTransfer.getMeetingEndDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Meeting meeting = new Meeting();
+            meeting.setMeetingName(meetingTransfer.getMeetingName());
+            meeting.setMeetingStartDate(startDate);
+            meeting.setMeetingEndDate(endDate);
+            meeting.setMeetingIntroduction(meetingTransfer.getMeetingIntroduction());
+            meeting.setMeetingPhone(meetingTransfer.getMeetingPhone());
+            meeting.setMeetingPicture(meetingTransfer.getMeetingPicture());
+            meeting.setMeetingPlace(meetingTransfer.getMeetingPlace());
+            meeting.setMeetingTitle(meetingTransfer.getMeetingTitle());
+
+            String time = TimeUtil.getTimeInMillis();
+            String meetId = "meeting" + time;
+            meeting.setMeetingId(meetId);
             meetingRepository.save(meeting);
             return "save success";
         }
@@ -67,7 +89,7 @@ public class MeetingServiceImpl implements MeetingService {
             return m;
         }
         else{
-            return nonExistent;
+            return null;
         }
     }
 
@@ -95,7 +117,7 @@ public class MeetingServiceImpl implements MeetingService {
             return m;
         }
         else{
-            return nonExistent;
+            return null;
         }
     }
 
@@ -124,97 +146,108 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public String updateMeetingDate(Date meetingDate, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingDate(meetingDate,meetingId);
-            return "updateMeetingDate success";
+    public String updateMeeting(Meeting meeting) {
+        if (isExistByMeetingName(meeting.getMeetingName())){
+            return "update failed";
         }
         else {
-            return "updateMeetingDate failed";
+            meetingRepository.save(meeting);
+            return "update success";
         }
     }
 
-    @Override
-    public String updateMeetingIntroduction(String meetingIntroduction, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingIntroduction(meetingIntroduction,meetingId);
-            return "updateMeetingIntroduction success";
-        }
-        else {
-            return "updateMeetingIntroduction failed";
-        }
-    }
-
-    @Override
-    public String updateMeetingName(String meetingName, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingName(meetingName, meetingId);
-            return "updateMeetingName success";
-        }
-        else {
-            return "updateMeetingName failed";
-        }
-    }
-
-    @Override
-    public String updateMeetingPhone(String meetingPhone, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingPhone(meetingPhone, meetingId);
-            return "updateMeetingPhone success";
-        }
-        else {
-            return "updateMeetingPhone failed";
-        }
-    }
-
-    @Override
-    public String updateMeetingPicture(String meetingPicture, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingPicture(meetingPicture, meetingId);
-            return "updateMeetingPicture success";
-        }
-        else {
-            return "updateMeetingPicture failed";
-        }
-    }
-
-    @Override
-    public String updateMeetingPlace(String meetingPlace, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingPlace(meetingPlace, meetingId);
-            return "updateMeetingPlace success";
-        }
-        else {
-            return "updateMeetingPlace failed";
-        }
-    }
-
-    @Override
-    public String updateMeetingTitle(String meetingTitle, String meetingInfo) {
-        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
-            String meetingId=getMeetingIdByMeetingName(meetingInfo);
-            meetingRepository.updateMeetingTitle(meetingTitle, meetingId);
-            return "updateMeetingTitle success";
-        }
-        else {
-            return "updateMeetingTitle failed";
-        }
-    }
-
-    @Override
-    public String getMeetingIdByMeetingName(String meetingName) {
+    public boolean isExistByMeetingName(String meetingName) {
         Meeting m = meetingRepository.findByMeetingName(meetingName);
         if(m == null){
-            return "nonExistent";
+            return false;
         }
         else {
-            return m.getMeetingId();
+            return true;
         }
     }
+
+//    @Override
+//    public String updateMeetingDate(Date meetingDate, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingDate(meetingDate,meetingId);
+//            return "updateMeetingDate success";
+//        }
+//        else {
+//            return "updateMeetingDate failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateMeetingIntroduction(String meetingIntroduction, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingIntroduction(meetingIntroduction,meetingId);
+//            return "updateMeetingIntroduction success";
+//        }
+//        else {
+//            return "updateMeetingIntroduction failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateMeetingName(String meetingName, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingName(meetingName, meetingId);
+//            return "updateMeetingName success";
+//        }
+//        else {
+//            return "updateMeetingName failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateMeetingPhone(String meetingPhone, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingPhone(meetingPhone, meetingId);
+//            return "updateMeetingPhone success";
+//        }
+//        else {
+//            return "updateMeetingPhone failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateMeetingPicture(String meetingPicture, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingPicture(meetingPicture, meetingId);
+//            return "updateMeetingPicture success";
+//        }
+//        else {
+//            return "updateMeetingPicture failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateMeetingPlace(String meetingPlace, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingPlace(meetingPlace, meetingId);
+//            return "updateMeetingPlace success";
+//        }
+//        else {
+//            return "updateMeetingPlace failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateMeetingTitle(String meetingTitle, String meetingInfo) {
+//        if(!getMeetingIdByMeetingName(meetingInfo).equals("nonExistent")){
+//            String meetingId=getMeetingIdByMeetingName(meetingInfo);
+//            meetingRepository.updateMeetingTitle(meetingTitle, meetingId);
+//            return "updateMeetingTitle success";
+//        }
+//        else {
+//            return "updateMeetingTitle failed";
+//        }
+//    }
+
 }

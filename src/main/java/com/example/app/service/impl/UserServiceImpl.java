@@ -2,14 +2,17 @@ package com.example.app.service.impl;
 
 import com.example.app.bean.User;
 import com.example.app.dao.UserRepository;
+import com.example.app.domain.UserTransfer;
 import com.example.app.service.UserService;
 import com.example.app.utils.PageUtil;
+import com.example.app.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +22,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    User nonExistent = null;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public PageUtil getAllUserByPageUtil(int pageNum, int pageSize) {
@@ -38,20 +40,45 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String save(User user) {
-         if (user == null || user.getUserName().equals("nonExistent") ){
-             return "save failed";
-         }else {
-             userRepository.save(user);
-             return "save success";
-         }
+    public String save(UserTransfer userTransfer) {
+
+        if (!isExistByUserPhone(userTransfer.getUserPhone()) && !isExistByMail(userTransfer.getMail())){
+            User user = new User();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = null;
+            try {
+                date = sdf.parse(userTransfer.getDeadline());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            user.setDeadline(date);
+            user.setMail(userTransfer.getMail());
+            user.setPassword(userTransfer.getPassword());
+            user.setUserName(userTransfer.getUserName());
+            user.setUserPhone(userTransfer.getUserPhone());
+
+            String time = TimeUtil.getTimeInMillis();
+            String userId = "user" + time;
+            String vipId = "vip" +time;
+            user.setUserId(userId);
+            user.setVipId(vipId);
+            userRepository.save(user);
+
+            return "save success";
+        }
+        else {
+            return "save failed";
+        }
+
     }
 
     @Override
     public List<User> findByUserName(String name) {
         List<User> m = userRepository.findByUserName(name);
         if (m.size() == 0){
-            m.add(nonExistent);
+            return null;
         }
         return m;
     }
@@ -63,12 +90,7 @@ public class UserServiceImpl implements UserService {
             return u;
         }
         else{
-            try {
-                nonExistent = new User("0","nonExistent","0","0","0",sdf.parse("0000-01-01 00:00:00"),"0");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return nonExistent;
+            return null;
         }
     }
 
@@ -79,12 +101,7 @@ public class UserServiceImpl implements UserService {
             return u;
         }
         else{
-            try {
-                nonExistent = new User("0","nonExistent","0","0","0",sdf.parse("0000-01-01 00:00:00"),"0");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return nonExistent;
+            return null;
         }
     }
 
@@ -95,12 +112,7 @@ public class UserServiceImpl implements UserService {
             return u;
         }
         else{
-            try {
-                nonExistent = new User("0","nonExistent","0","0","0",sdf.parse("0000-01-01 00:00:00"),"0");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return nonExistent;
+            return null;
         }
     }
 
@@ -157,170 +169,173 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUserDeadLine(Date deadline, String userInfo) {
-        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
-            String userId=getUserIdByVipId(userInfo);
-            userRepository.updateUserDeadLine(deadline,userId);
-            return "updateUserDeadline success";
-        }
-        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
-            String userId=getUserIdByMail(userInfo);
-            userRepository.updateUserDeadLine(deadline,userId);
-            return "updateUserDeadline success";
-        }
-        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
-            String userId=getUserIdByUserPhone(userInfo);
-            userRepository.updateUserDeadLine(deadline,userId);
-            return "updateUserDeadline success";
+    public String updateUser(User user) {
+        if (isExistByUserPhone(user.getUserPhone())){
+            return "update failed";
         }
         else {
-            return "updateUserDeadline failed";
+            userRepository.save(user);
+            return "update success";
         }
     }
 
-    @Override
-    public String updateUserMail(String mail, String userInfo) {
-        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
-            String userId=getUserIdByVipId(userInfo);
-            userRepository.updateUserMail(mail,userId);
-            return "updateUserMail success";
-        }
-        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
-            String userId=getUserIdByMail(userInfo);
-            userRepository.updateUserMail(mail,userId);
-            return "updateUserMail success";
-        }
-        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
-            String userId=getUserIdByUserPhone(userInfo);
-            userRepository.updateUserMail(mail,userId);
-            return "updateUserMail success";
-        }
-        else {
-            return "updateUserMail failed";
-        }
-    }
 
-    @Override
-    public String updateUserPassword(String password, String userInfo) {
-        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
-            String userId=getUserIdByVipId(userInfo);
-            userRepository.updateUserPassword(password, userId);
-            return "updateUserPassword success";
-        }
-        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
-            String userId=getUserIdByMail(userInfo);
-            userRepository.updateUserPassword(password, userId);
-            return "updateUserPassword success";
-        }
-        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
-            String userId=getUserIdByUserPhone(userInfo);
-            userRepository.updateUserPassword(password, userId);
-            return "updateUserPassword success";
-        }
-        else {
-            return "updateUserPassword failed";
-        }
-    }
-
-    @Override
-    public String updateUserName(String userName, String userInfo) {
-        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
-            String userId=getUserIdByVipId(userInfo);
-            userRepository.updateUserName(userName, userId);
-            return "updateUserName success";
-        }
-        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
-            String userId=getUserIdByMail(userInfo);
-            userRepository.updateUserName(userName, userId);
-            return "updateUserName success";
-        }
-        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
-            String userId=getUserIdByUserPhone(userInfo);
-            userRepository.updateUserName(userName, userId);
-            return "updateUserName success";
-        }
-        else {
-            return "updateUserName failed";
-        }
-    }
-
-    @Override
-    public String updateUserPhone(String userPhone, String userInfo) {
-        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
-            String userId=getUserIdByVipId(userInfo);
-            userRepository.updateUserPhone(userPhone,userId);
-            return "updateUserPhone success";
-        }
-        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
-            String userId=getUserIdByMail(userInfo);
-            userRepository.updateUserPhone(userPhone,userId);
-            return "updateUserPhone success";
-        }
-        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
-            String userId=getUserIdByUserPhone(userInfo);
-            userRepository.updateUserPhone(userPhone,userId);
-            return "updateUserPhone success";
-        }
-        else {
-            return "updateUserPhone failed";
-        }
-    }
-
-    @Override
-    public String updateUserVipId(String vipId, String userInfo) {
-        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
-            String userId=getUserIdByVipId(userInfo);
-            userRepository.updateUserVipId(vipId,userId);
-            return "updateUserVipId success";
-        }
-        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
-            String userId=getUserIdByMail(userInfo);
-            userRepository.updateUserVipId(vipId,userId);
-            return "updateUserVipId success";
-        }
-        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
-            String userId=getUserIdByUserPhone(userInfo);
-            userRepository.updateUserVipId(vipId,userId);
-            return "updateUserVipId success";
-        }
-        else {
-            return "updateUserVipId failed";
-        }
-
-    }
-
-    @Override
-    public String getUserIdByUserPhone(String userPhone) {
+    public boolean isExistByUserPhone(String userPhone) {
         User u = userRepository.findByUserPhone(userPhone);
         if(u == null){
-            return "nonExistent";
+            return false;
         }
         else {
-            return u.getUserId();
+            return true;
         }
     }
 
-    @Override
-    public String getUserIdByVipId(String vipId) {
-        User u = userRepository.findByVipId(vipId);
-        if(u == null){
-            return "nonExistent";
-        }
-        else {
-            return u.getUserId();
-        }
-    }
-
-    @Override
-    public String getUserIdByMail(String mail) {
+    public boolean isExistByMail(String mail) {
         User u = userRepository.findByMail(mail);
         if(u == null){
-            return "nonExistent";
+            return false;
         }
         else {
-            return u.getUserId();
+            return true;
         }
     }
 
 
+
+
+
+
+
+//    @Override
+//    public String updateUserDeadLine(Date deadline, String userInfo) {
+//        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByVipId(userInfo);
+//            userRepository.updateUserDeadLine(deadline,userId);
+//            return "updateUserDeadline success";
+//        }
+//        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByMail(userInfo);
+//            userRepository.updateUserDeadLine(deadline,userId);
+//            return "updateUserDeadline success";
+//        }
+//        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByUserPhone(userInfo);
+//            userRepository.updateUserDeadLine(deadline,userId);
+//            return "updateUserDeadline success";
+//        }
+//        else {
+//            return "updateUserDeadline failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateUserMail(String mail, String userInfo) {
+//        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByVipId(userInfo);
+//            userRepository.updateUserMail(mail,userId);
+//            return "updateUserMail success";
+//        }
+//        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByMail(userInfo);
+//            userRepository.updateUserMail(mail,userId);
+//            return "updateUserMail success";
+//        }
+//        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByUserPhone(userInfo);
+//            userRepository.updateUserMail(mail,userId);
+//            return "updateUserMail success";
+//        }
+//        else {
+//            return "updateUserMail failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateUserPassword(String password, String userInfo) {
+//        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByVipId(userInfo);
+//            userRepository.updateUserPassword(password, userId);
+//            return "updateUserPassword success";
+//        }
+//        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByMail(userInfo);
+//            userRepository.updateUserPassword(password, userId);
+//            return "updateUserPassword success";
+//        }
+//        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByUserPhone(userInfo);
+//            userRepository.updateUserPassword(password, userId);
+//            return "updateUserPassword success";
+//        }
+//        else {
+//            return "updateUserPassword failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateUserName(String userName, String userInfo) {
+//        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByVipId(userInfo);
+//            userRepository.updateUserName(userName, userId);
+//            return "updateUserName success";
+//        }
+//        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByMail(userInfo);
+//            userRepository.updateUserName(userName, userId);
+//            return "updateUserName success";
+//        }
+//        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByUserPhone(userInfo);
+//            userRepository.updateUserName(userName, userId);
+//            return "updateUserName success";
+//        }
+//        else {
+//            return "updateUserName failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateUserPhone(String userPhone, String userInfo) {
+//        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByVipId(userInfo);
+//            userRepository.updateUserPhone(userPhone,userId);
+//            return "updateUserPhone success";
+//        }
+//        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByMail(userInfo);
+//            userRepository.updateUserPhone(userPhone,userId);
+//            return "updateUserPhone success";
+//        }
+//        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByUserPhone(userInfo);
+//            userRepository.updateUserPhone(userPhone,userId);
+//            return "updateUserPhone success";
+//        }
+//        else {
+//            return "updateUserPhone failed";
+//        }
+//    }
+//
+//    @Override
+//    public String updateUserVipId(String vipId, String userInfo) {
+//        if(!getUserIdByVipId(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByVipId(userInfo);
+//            userRepository.updateUserVipId(vipId,userId);
+//            return "updateUserVipId success";
+//        }
+//        else if (!getUserIdByMail(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByMail(userInfo);
+//            userRepository.updateUserVipId(vipId,userId);
+//            return "updateUserVipId success";
+//        }
+//        else if (!getUserIdByUserPhone(userInfo).equals("nonExistent")){
+//            String userId=getUserIdByUserPhone(userInfo);
+//            userRepository.updateUserVipId(vipId,userId);
+//            return "updateUserVipId success";
+//        }
+//        else {
+//            return "updateUserVipId failed";
+//        }
+//
+//    }
 }

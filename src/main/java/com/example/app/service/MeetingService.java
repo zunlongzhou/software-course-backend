@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.bean.Meeting;
+import com.example.app.domain.MeetingTransfer;
 import com.example.app.utils.PageUtil;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ public interface MeetingService {
 
     PageUtil getAllMeetingByPageUtil(int pageNum, int pageSize);
 
-    String save(Meeting meeting);
+    String save(MeetingTransfer meetingTransfer);
 
     Meeting findByMeetingName(String name);
 
@@ -24,20 +25,21 @@ public interface MeetingService {
 
     String deleteByMeetingName(String meetingName);
 
-    String updateMeetingDate(Date meetingDate, String meetingInfo);
+    String updateMeeting(Meeting meeting);
 
-    String updateMeetingIntroduction(String meetingIntroduction,String meetingInfo);
+//    String updateMeetingDate(Date meetingDate, String meetingInfo);
+//
+//    String updateMeetingIntroduction(String meetingIntroduction,String meetingInfo);
+//
+//    String updateMeetingName(String meetingName,String meetingInfo);
+//
+//    String updateMeetingPhone(String meetingPhone,String meetingInfo);
+//
+//    String updateMeetingPicture(String meetingPicture,String meetingInfo);
+//
+//    String updateMeetingPlace(String meetingPlace,String meetingInfo);
+//
+//    String updateMeetingTitle(String meetingTitle,String meetingInfo);
 
-    String updateMeetingName(String meetingName,String meetingInfo);
-
-    String updateMeetingPhone(String meetingPhone,String meetingInfo);
-
-    String updateMeetingPicture(String meetingPicture,String meetingInfo);
-
-    String updateMeetingPlace(String meetingPlace,String meetingInfo);
-
-    String updateMeetingTitle(String meetingTitle,String meetingInfo);
-
-    String getMeetingIdByMeetingName(String meetingName);
 
 }
